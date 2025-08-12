@@ -1,3 +1,63 @@
 service:
   mongodb:
-    image: 
+    image: nanda777/mongodb
+    container_name: mongodb
+  catalogue:
+    image: nanda777/catalogue
+    container_name: catalogue
+    depends_on:
+    - mongodb
+  redis:
+    image: nanda777/redis
+    container_name: redis
+  user:
+    image: nanda777/user
+    container_name: user
+    depends_on:
+    - mongodb
+    - redis
+  cart:
+    image: nanda777/cart
+    container_name: cart
+    depends_on:
+    - redis
+    - catalogue
+  mysql:
+    image: nanda777/mysql
+    container_name: mysql
+  shipping:
+    image: nanda777/shipping
+    container_name: shipping
+    depends_on:
+    - mysql
+    - cart
+  rabbitmq:
+    image: nanda777/rabbitmq
+    container_name: rabbitmq
+  payment:
+    image: nanda777/payment
+    container_name: payment
+    environment:
+      CART_HOST: cart
+      CART_PORT: 8080
+      USER_HOST: user
+      USER_PORT: 8080
+      AMQP_HOST: rabbitmq
+      AMQP_USER: roboshop
+      AMQP_PASS: roboshop123
+    depends_on:
+    - rabbitmq
+    - cart
+    - user
+  frontend:
+    image: nanda777/frontend
+    container_name: frontend
+    ports:
+    - "80:80"
+    depends_on:
+    - catalogue
+    - user
+    - cart
+    - shipping
+    - payment
+    
