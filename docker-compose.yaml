@@ -1,4 +1,9 @@
-service:
+networks:
+  default:
+    driver: bridge
+    name: roboshop
+    #external: true #I created network already using docker network create roboshop
+services:
   mongodb:
     image: nanda777/mongodb
     container_name: mongodb
@@ -60,4 +65,3 @@ service:
     - cart
     - shipping
     - payment
-    
