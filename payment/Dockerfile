@@ -13,6 +13,7 @@ RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 WORKDIR /opt/server
 COPY --from=builder /opt/server /opt/server
 COPY --from=builder /usr/local /usr/local
+RUN chown -R roboshop:roboshop /opt/server
 USER roboshop
 CMD ["uwsgi", "--ini", "payment.ini"]
 
