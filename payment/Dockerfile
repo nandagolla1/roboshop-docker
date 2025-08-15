@@ -1,5 +1,5 @@
-FROM python:3.9 AS builder
-RUN apk add --no-cache python3-dev build-base linux-headers pcre-dev
+FROM python:3.9-alpine3.22 AS builder
+RUN apk add --no-cache python3-dev build-base linux-headers pcre-dev musl-dev
 WORKDIR /opt/server
 COPY payment.ini .
 COPY *.py .
