@@ -15,6 +15,8 @@ WORKDIR /opt/server
 COPY --from=builder /opt/server /opt/server
 COPY --from=builder /usr/local /usr/local
 RUN chown -R roboshop:roboshop /opt/server
+COPY --chown=roboshop:roboshop payment.ini .
+COPY --chown=roboshop:roboshop *.py .
 USER roboshop
 CMD ["uwsgi", "--ini", "payment.ini"]
 
