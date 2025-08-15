@@ -1,8 +1,6 @@
 FROM python:3.9-alpine3.22 AS builder
 RUN apk add --no-cache python3-dev build-base linux-headers pcre-dev musl-dev
 WORKDIR /opt/server
-COPY payment.ini .
-COPY *.py .
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt uwsgi
 
