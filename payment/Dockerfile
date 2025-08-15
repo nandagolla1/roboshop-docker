@@ -1,16 +1,19 @@
 FROM python:3.9 AS builder
+RUN apk add --no-cache build-base linux-headers python3-dev pcre-dev musl-dev
 WORKDIR /opt/server
 COPY payment.ini .
 COPY *.py .
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 
 FROM python:3.9.23-alpine3.22
+RUN pip install --no-cache-dir uwsgi
 EXPOSE 8080
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 WORKDIR /opt/server
 COPY --from=builder /opt/server /opt/server
+COPY --from=builder /usr/local /usr/local
 USER roboshop
 CMD ["uwsgi", "--ini", "payment.ini"]
 
