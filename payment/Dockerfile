@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt uwsgi
 
 FROM python:3.9.23-alpine3.22
 EXPOSE 8080
+RUN apk add --no-cache pcre
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 WORKDIR /opt/server
 COPY --from=builder /opt/server /opt/server
